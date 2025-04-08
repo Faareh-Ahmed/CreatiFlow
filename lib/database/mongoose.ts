@@ -7,16 +7,14 @@ interface MongooseConnection {
   promise: Promise<Mongoose> | null;
 }
 
-// Extend the Node.js global type to include our `mongoose` cache
 declare global {
-  // Allow `global.mongoose` to be used
-  // Only define it once to avoid conflicts in hot reloads (like in Next.js)
+  // Prevent redeclaration errors in hot reloads
   // eslint-disable-next-line no-var
   var mongoose: MongooseConnection | undefined;
 }
 
-let cached: MongooseConnection = global.mongoose ?? { conn: null, promise: null };
-
+// ✅ Use `const` since `cached` isn't reassigned
+const cached: MongooseConnection = global.mongoose ?? { conn: null, promise: null };
 global.mongoose = cached;
 
 export const connectToDatabase = async () => {
