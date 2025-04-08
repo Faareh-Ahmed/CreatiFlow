@@ -1,4 +1,3 @@
-'use client';
 /* eslint-disable camelcase */
 
 import { clerkClient } from "@clerk/clerk-sdk-node";
