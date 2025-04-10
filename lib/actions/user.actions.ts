@@ -11,11 +11,15 @@ import { handleError } from "../utils";
 export async function createUser(user: CreateUserParams) {
   try {
     await connectToDatabase();
+    console.log("[User] Creating user:", user);
 
     const newUser = await User.create(user);
 
+    console.log("[User] Created successfully:", newUser._id);
+
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
+    console.error("[User] Creation failed:", error);
     handleError(error);
   }
 }
@@ -39,15 +43,19 @@ export async function getUserById(userId: string) {
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
   try {
     await connectToDatabase();
+    console.log("[User] Updating user:", clerkId, user);
 
     const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
       new: true,
     });
 
     if (!updatedUser) throw new Error("User update failed");
+
+    console.log("[User] Updated:", updatedUser._id);
     
     return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {
+    console.error("[User] Update failed:", error);
     handleError(error);
   }
 }
@@ -56,11 +64,13 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
 export async function deleteUser(clerkId: string) {
   try {
     await connectToDatabase();
+    console.log("[User] Deleting user with clerkId:", clerkId);
 
     // Find user to delete
     const userToDelete = await User.findOne({ clerkId });
 
     if (!userToDelete) {
+      console.warn("[User] No user to delete found:", clerkId);
       throw new Error("User not found");
     }
 
@@ -70,6 +80,7 @@ export async function deleteUser(clerkId: string) {
 
     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
   } catch (error) {
+    console.error("[User] Deletion failed:", error);
     handleError(error);
   }
 }

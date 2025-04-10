@@ -6,7 +6,7 @@ import {
 
 // Define ALL routes that should be publicly accessible without login
 const isPublicRoute = createRouteMatcher([
-  '/api/webhooks/clerk', // Your webhook route pattern
+  '/api/webhooks(.*)', // Your webhook route pattern
   '/',                      // Example: Make homepage public
   '/sign-in(.*)',           // Sign-in page and potential sub-routes
   '/sign-up(.*)',           // Sign-up page and potential sub-routes

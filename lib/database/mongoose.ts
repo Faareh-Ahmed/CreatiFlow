@@ -18,18 +18,28 @@ const cached: MongooseConnection = global.mongoose ?? { conn: null, promise: nul
 global.mongoose = cached;
 
 export const connectToDatabase = async () => {
-  if (cached.conn) return cached.conn;
+  if (cached.conn) {
+    console.log("[MongoDB] Reusing existing database connection");
+    return cached.conn;
+  }
 
   if (!MONGODB_URL) throw new Error('Missing MONGODB_URL');
 
-  cached.promise =
-    cached.promise ||
-    mongoose.connect(MONGODB_URL, {
-      dbName: 'imaginify',
-      bufferCommands: false,
-    });
+  try {
+    cached.promise =
+      cached.promise ||
+      mongoose.connect(MONGODB_URL, {
+        dbName: "imaginify",
+        bufferCommands: false,
+      });
 
-  cached.conn = await cached.promise;
+    cached.conn = await cached.promise;
 
-  return cached.conn;
+    console.log("[MongoDB] New database connection established");
+
+    return cached.conn;
+  } catch (error) {
+    console.error("[MongoDB] Connection error:", error);
+    throw error;
+  }
 };
