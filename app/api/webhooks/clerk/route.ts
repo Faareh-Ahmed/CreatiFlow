@@ -1,5 +1,9 @@
 import { verifyWebhook } from '@clerk/nextjs/webhooks'
 
+export async function GET() {
+  return Response.json({ message: 'Hello World' })
+}
+
 export async function POST(req: Request) {
   try {
     const evt = await verifyWebhook(req)
