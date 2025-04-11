@@ -1,175 +1,195 @@
+// import { verifyWebhook } from '@clerk/nextjs/webhooks'
+
+// export async function GET() {
+//   return Response.json({ message: 'Hello World' })
+// }
+
+// export async function POST(req: Request) {
+//   try {
+//     const evt = await verifyWebhook(req)
+
+//     // Do something with payload
+//     // For this guide, log payload to console
+//     const { id } = evt.data
+//     const eventType = evt.type
+//     console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
+//     console.log('Webhook payload:', evt.data)
+
+//     return new Response('Webhook received', { status: 200 })
+//   } catch (err) {
+//     console.error('Error verifying webhook:', err)
+//     return new Response('Error verifying webhook', { status: 400 })
+//   }
+// }
+
+
+
+// Located at: src/app/api/webhooks/clerk/route.ts
 /* eslint-disable camelcase */
 
-import { clerkClient } from "@clerk/clerk-sdk-node";
-import { WebhookEvent } from "@clerk/nextjs/server";
-import { headers } from "next/headers";
-import { NextResponse } from "next/server";
-import { Webhook } from "svix";
+// Correct import for App Router webhooks helper
+import { WebhookEvent } from '@clerk/nextjs/server';
+// Import the verification function
+import { verifyWebhook } from '@clerk/nextjs/webhooks'; // Or '@clerk/nextjs/webhooks' if using Pages Router style
 
-import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
+import { NextResponse } from 'next/server';
+import { clerkClient } from '@clerk/clerk-sdk-node';
+
+// Import your user actions
+import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions';
 
 export async function POST(req: Request) {
-  console.log("[Webhook Handler] Received POST request."); // <-- Added Log
-
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const CLERK_WEBHOOK_SIGNING_SECRET = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
-
-  if (!CLERK_WEBHOOK_SIGNING_SECRET) {
-    console.error(
-      "[Webhook Handler] Error: CLERK_WEBHOOK_SIGNING_SECRET is not set in environment variables." // <-- Added Log
-    );
-    throw new Error(
-      "Please add CLERK_WEBHOOK_SIGNING_SECRET from Clerk Dashboard to .env or .env.local"
-    );
-  }
-
-  // Get the headers
-  console.log("[Webhook Handler] Getting headers..."); // <-- Added Log
-  const headerPayload = await headers();
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
-  console.log("[Webhook Handler] Svix Headers:", { svix_id, svix_timestamp, svix_signature }); // <-- Added Log
-
-  // If there are no headers, error out
-  if (!svix_id || !svix_timestamp || !svix_signature) {
-    console.warn("[Webhook Handler] Missing Svix headers."); // <-- Added Log
-    return new Response("Error occured -- no svix headers", {
-      status: 400,
-    });
-  }
-
-  // Get the body
-  console.log("[Webhook Handler] Parsing request body..."); // <-- Added Log
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
-  console.log("[Webhook Handler] Request body parsed and stringified."); // <-- Added Log
-  // console.log("[Webhook Handler] Stringified Body:", body); // Optional: Log body content if needed for debugging (be mindful of sensitive data)
-
-  // Create a new Svix instance with your secret.
-  const wh = new Webhook(CLERK_WEBHOOK_SIGNING_SECRET);
+  console.log('[Webhook Handler] Received POST request.');
 
   let evt: WebhookEvent;
 
-  // Verify the payload with the headers
+  // --- Verification using Clerk's verifyWebhook ---
   try {
-    console.log("[Webhook Handler] Verifying webhook signature..."); // <-- Added Log
-    evt = wh.verify(body, {
-      "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
-      "svix-signature": svix_signature,
-    }) as WebhookEvent;
-    console.log("[Webhook Handler] Webhook signature verified successfully."); // <-- Added Log
-  } catch (err) {
-    console.error("[Webhook Handler] Error verifying webhook:", err); // <-- Updated Log with Error
-    return new Response("Error occured", {
+    console.log('[Webhook Handler] Verifying webhook using verifyWebhook...');
+    // verifyWebhook handles reading headers and body, and signature verification.
+    // It requires the raw Request object.
+    // Note: verifyWebhook consumes the request body, so if you needed to read it
+    // *before* verification for some other reason, you'd need to clone the request.
+    // Here, we only need the verified event payload afterwards.
+    evt = await verifyWebhook(req);
+    console.log('[Webhook Handler] Webhook verified successfully.');
+
+  } catch (err: any) { // Catch specific error type if known, otherwise any/unknown
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    console.error('[Webhook Handler] Error verifying webhook:', errorMessage);
+    console.error('[Webhook Handler] Full Error Object:', err); // Log the full error for more details
+    // It's helpful to return the specific error message from Clerk if available
+    return new Response(`Error verifying webhook: ${errorMessage}`, {
       status: 400,
     });
   }
+  // --- End Verification ---
 
-  // Get the ID and type
-  const { id } = evt.data; // id will be null for session events, but we are only handling user events here
   const eventType = evt.type;
-  console.log(`[Webhook Handler] Received event type: ${eventType}, Event ID: ${id ?? 'N/A'}`); // <-- Added Log
+  console.log(`[Webhook Handler] Processing verified event type: ${eventType}`);
 
-  // CREATE
-  if (eventType === "user.created") {
-    console.log("[Webhook Handler] Processing 'user.created' event..."); // <-- Added Log
+  // --- Handle Specific Event Types (Logic remains the same) ---
+
+  // USER CREATED
+  if (eventType === 'user.created') {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
-    const user = {
+    if (!id || !email_addresses || email_addresses.length === 0) {
+        console.error("[Webhook Handler] Error: Missing id or email for user.created event.", evt.data);
+        return NextResponse.json({ message: 'Error: Missing required user data' }, { status: 400 });
+    }
+
+    const userToCreate = {
       clerkId: id,
       email: email_addresses[0].email_address,
-      username: username!,
-      firstName: first_name ?? "",
-      lastName: last_name ?? "",
-      photo: image_url,
+      username: username || '',
+      firstName: first_name ?? '',
+      lastName: last_name ?? '',
+      photo: image_url || '',
     };
-    console.log("[Webhook Handler] User data extracted for creation:", user); // <-- Added Log
+
+    console.log('[Webhook Handler] Preparing to create user:', userToCreate);
 
     try {
-      console.log("[Webhook Handler] Calling createUser action..."); // <-- Added Log
-      const newUser = await createUser(user);
-      console.log("[Webhook Handler] createUser action successful:", newUser); // <-- Added Log
+      const newUser = await createUser(userToCreate);
+      console.log('[Webhook Handler] User created successfully in DB:', newUser?._id);
 
-      // Set public metadata
-      if (newUser) {
-        console.log("[Webhook Handler] Updating Clerk user metadata for new user:", id); // <-- Added Log
-        try {
-            await clerkClient.users.updateUserMetadata(id, {
-              publicMetadata: {
-                userId: newUser._id, // Assuming newUser has an _id property from MongoDB
-              },
-            });
-            console.log("[Webhook Handler] Clerk user metadata updated successfully."); // <-- Added Log
-        } catch (metaError) {
-            console.error("[Webhook Handler] Error updating Clerk metadata:", metaError); // <-- Added Log for metadata error
-        }
+      if (newUser?._id) {
+          console.log(`[Webhook Handler] Updating Clerk metadata for user ${id} with DB ID ${newUser._id}`);
+          try {
+              await clerkClient.users.updateUserMetadata(id, {
+                  publicMetadata: {
+                      userId: newUser._id.toString(),
+                  },
+              });
+              console.log(`[Webhook Handler] Clerk metadata updated successfully for user ${id}.`);
+          } catch (metaError) {
+              console.error(`[Webhook Handler] Error updating Clerk metadata for user ${id}:`, metaError);
+          }
+      } else {
+          console.warn(`[Webhook Handler] DB user object or _id missing after creation for Clerk ID ${id}. Cannot update metadata.`);
       }
 
-      console.log("[Webhook Handler] Responding OK for 'user.created'."); // <-- Added Log
-      return NextResponse.json({ message: "OK", user: newUser });
-    } catch (createError) {
-      console.error("[Webhook Handler] Error during user creation process:", createError); // <-- Added Log
-      return new Response("Error occured during user creation", { status: 500 }); // <-- Added specific error response
+      return NextResponse.json({ message: 'User created successfully', user: newUser }, { status: 201 });
+    } catch (error) {
+      console.error('[Webhook Handler] Error calling createUser action:', error);
+      return NextResponse.json({ message: 'Error creating user in database' }, { status: 500 });
     }
   }
 
-  // UPDATE
-  if (eventType === "user.updated") {
-    console.log("[Webhook Handler] Processing 'user.updated' event..."); // <-- Added Log
+  // USER UPDATED
+  if (eventType === 'user.updated') {
     const { id, image_url, first_name, last_name, username } = evt.data;
 
-    const user = {
-      firstName: first_name ?? "",
-      lastName: last_name ?? "",
-      username: username!,
-      photo: image_url,
+     if (!id) {
+        console.error("[Webhook Handler] Error: Missing id for user.updated event.", evt.data);
+        return NextResponse.json({ message: 'Error: Missing required user data' }, { status: 400 });
+    }
+
+    const userToUpdate = {
+      username: username || '',
+      firstName: first_name ?? '',
+      lastName: last_name ?? '',
+      photo: image_url || '',
     };
-    console.log("[Webhook Handler] User data extracted for update:", { clerkId: id, updates: user }); // <-- Added Log
+
+    console.log(`[Webhook Handler] Preparing to update user ${id} with data:`, userToUpdate);
 
     try {
-      console.log("[Webhook Handler] Calling updateUser action..."); // <-- Added Log
-      const updatedUser = await updateUser(id, user);
-      console.log("[Webhook Handler] updateUser action successful:", updatedUser); // <-- Added Log
-
-      console.log("[Webhook Handler] Responding OK for 'user.updated'."); // <-- Added Log
-      return NextResponse.json({ message: "OK", user: updatedUser });
-    } catch (updateError) {
-      console.error("[Webhook Handler] Error during user update process:", updateError); // <-- Added Log
-      return new Response("Error occured during user update", { status: 500 }); // <-- Added specific error response
+      const updatedUser = await updateUser(id, userToUpdate);
+       if (!updatedUser) {
+           console.warn(`[Webhook Handler] User with clerkId ${id} not found for update.`);
+           return NextResponse.json({ message: 'User not found for update, webhook acknowledged.' }, { status: 200 });
+       }
+      console.log('[Webhook Handler] User updated successfully in DB:', updatedUser._id);
+      return NextResponse.json({ message: 'User updated successfully', user: updatedUser }, { status: 200 });
+    } catch (error) {
+      console.error(`[Webhook Handler] Error calling updateUser action for ${id}:`, error);
+      return NextResponse.json({ message: 'Error updating user in database' }, { status: 500 });
     }
   }
 
-  // DELETE
-  if (eventType === "user.deleted") {
-    console.log("[Webhook Handler] Processing 'user.deleted' event..."); // <-- Added Log
-    const { id } = evt.data; // id might be null if the user was already deleted? Clerk docs say it should be present.
+  // USER DELETED
+  if (eventType === 'user.deleted') {
+    // Clerk's event payload for deleted might differ slightly, check their docs.
+    // Often it includes { id: string, deleted: boolean }
+    // We primarily need the 'id'.
+    const { id } = evt.data;
 
+    // Important: Check if ID exists in the deleted event payload
     if (!id) {
-        console.error("[Webhook Handler] Error: 'user.deleted' event received without user ID."); // <-- Added Log
-        return new Response("Error occured -- missing user ID in delete event", { status: 400 });
+        console.error("[Webhook Handler] Error: Missing id for user.deleted event.", evt.data);
+        // If ID is missing, we can't delete. Return 400.
+        return NextResponse.json({ message: 'Error: Missing user ID for deletion' }, { status: 400 });
     }
 
-    console.log("[Webhook Handler] User ID extracted for deletion:", id); // <-- Added Log
+
+    console.log(`[Webhook Handler] Preparing to delete user with Clerk ID: ${id}`);
 
     try {
-      console.log("[Webhook Handler] Calling deleteUser action..."); // <-- Added Log
       const deletedUser = await deleteUser(id);
-      console.log("[Webhook Handler] deleteUser action successful:", deletedUser); // <-- Added Log
 
-      console.log("[Webhook Handler] Responding OK for 'user.deleted'."); // <-- Added Log
-      return NextResponse.json({ message: "OK", user: deletedUser });
-    } catch (deleteError) {
-      console.error("[Webhook Handler] Error during user deletion process:", deleteError); // <-- Added Log
-      return new Response("Error occured during user deletion", { status: 500 }); // <-- Added specific error response
+      if (!deletedUser) {
+           console.warn(`[Webhook Handler] User with clerkId ${id} not found for deletion (already deleted or never existed in DB?).`);
+           return NextResponse.json({ message: 'User not found for deletion, webhook acknowledged.' }, { status: 200 });
+      }
+
+      console.log('[Webhook Handler] User deleted successfully from DB:', deletedUser._id);
+      return NextResponse.json({ message: 'User deleted successfully', user: deletedUser }, { status: 200 });
+
+    } catch (error) {
+      console.error(`[Webhook Handler] Error calling deleteUser action for ${id}:`, error);
+      return NextResponse.json({ message: 'Error deleting user from database' }, { status: 500 });
     }
   }
 
-  // If event type is not handled above
-  console.log(`[Webhook Handler] Unhandled event type: ${eventType}. ID: ${id ?? 'N/A'}`); // <-- Updated Log for clarity
-  console.log("[Webhook Handler] Webhook body for unhandled event:", body); // <-- Added Log (already existed but improved context)
+  // --- Fallback for Unhandled Events ---
+  console.log(`[Webhook Handler] Unhandled event type: ${eventType}. ID: ${evt.data.id ?? 'N/A'}. Acknowledging receipt.`);
+  return NextResponse.json({ message: 'Webhook received but event type not handled' }, { status: 200 });
+}
 
-  console.log("[Webhook Handler] Responding with 200 OK for unhandled or successfully processed event."); // <-- Added Log
-  return new Response("", { status: 200 });
+// GET handler can remain the same for basic checks
+export async function GET() {
+    console.log("[Webhook Handler] Received GET request.");
+    return Response.json({ message: 'Clerk Webhook Endpoint Active' });
 }
