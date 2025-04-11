@@ -25,7 +25,6 @@
 
 
 // Located at: src/app/api/webhooks/clerk/route.ts
-/* eslint-disable camelcase */
 
 // Correct import for App Router webhooks helper
 import { WebhookEvent } from '@clerk/nextjs/server';
@@ -54,7 +53,7 @@ export async function POST(req: Request) {
     evt = await verifyWebhook(req);
     console.log('[Webhook Handler] Webhook verified successfully.');
 
-  } catch (err: any) { // Catch specific error type if known, otherwise any/unknown
+  } catch (err: unknown) { // Catch specific error type if known, otherwise any/unknown
     const errorMessage = err instanceof Error ? err.message : 'Unknown error';
     console.error('[Webhook Handler] Error verifying webhook:', errorMessage);
     console.error('[Webhook Handler] Full Error Object:', err); // Log the full error for more details
