@@ -117,6 +117,7 @@ export type CreateUserParams = {
     searchParams: { [key: string]: string | string[] | undefined };
   };
   
+
   export type TransformationFormProps = {
     action: "Add" | "Update";
     userId: string;
@@ -127,7 +128,7 @@ export type CreateUserParams = {
   };
   
   export type TransformedImageProps = {
-    image: unknown;
+    image: any;
     type: string;
     title: string;
     transformationConfig: Transformations | null;
