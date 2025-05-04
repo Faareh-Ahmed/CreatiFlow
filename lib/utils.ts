@@ -95,6 +95,25 @@ export const debounce = <T extends (...args: unknown[]) => void>(
 // ========== IMAGE UTIL ==========
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
 
+
+  // Define the shape of the image state
+ export interface ImageState extends ImageLike {
+  publicId: string;
+  width: number;
+  height: number;
+  secureURL: string;
+}
+
+// Define the upload result from CldUploadWidget
+export interface UploadResult {
+  info: {
+    public_id: string;
+    width: number;
+    height: number;
+    secure_url: string;
+  };
+}
+
 interface ImageLike {
   aspectRatio?: string;
   width?: number;

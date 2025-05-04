@@ -23,17 +23,17 @@ const Credits = async () => {
         subtitle="Choose a credit package that suits your needs!"
       />
 
-      <section>
+      <section className="universal">
         <ul className="credits-list">
           {plans.map((plan) => (
             <li key={plan.name} className="credits-item">
-              <div className="flex-center flex-col gap-3">
+              <div className="flex-center flex-col gap-3 ">
                 <Image src={plan.icon} alt="check" width={50} height={50} />
-                <p className="p-4 mt-2 text-purple-500">
+                <p className="p-2 mt-2  text-2xl text-yellow-400">
                   {plan.name}
                 </p>
-                <p className="font-semibold text-blue-800">${plan.price}</p>
-                <p className="p-4">{plan.credits} Credits</p>
+                <p className="font-semibold p-2  text-2xl text-yellow-400">${plan.price}</p>
+                <p className="p-2  text-2xl text-yellow-400">{plan.credits} Credits</p>
               </div>
 
               {/* Inclusions */}

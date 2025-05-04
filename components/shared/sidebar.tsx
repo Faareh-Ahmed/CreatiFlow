@@ -11,19 +11,19 @@ const Sidebar = () => {
     const pathname = usePathname()
 
     return (
-        <aside className='sidebar'>
+        <aside className='sidebar '>
             <div className='flex size-full flex-col gap-4'>
                 <Link href='/' className='sidebar-logo'>
                     <Image src="/assets/images/CreatiFlow2.png" alt="logo" width={200} height={50} className='object-contain' />
                 </Link>
 
-                <nav className='sidebar-nav'>
+                <nav className='sidebar-nav '>
                     <SignedIn>
-                        <ul className='sidebar-nav_elements'>
+                        <ul className='sidebar-nav_elements '>
                             {navLinks.map((link) => {
                                 const isActive = link.route === pathname
                                 return (
-                                    <li key={link.route} className={`sidebar-nav_element group ${isActive ? 'bg-blue-700 text-white' : 'text-gray-700'}`}>
+                                    <li key={link.route} className={`sidebar-nav_element group  ${isActive ? 'bg-blue-700 text-white' : 'text-gray-700'}`}>
                                         <Link className=' sidebar-link' href={link.route}>
                                             <Image
                                                 src={link.icon}
