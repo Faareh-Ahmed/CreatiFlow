@@ -1,44 +1,44 @@
-import {
-  clerkMiddleware,
-  createRouteMatcher,
-} from "@clerk/nextjs/server";
+// middleware.ts (or src/middleware.ts)
 
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-// Define ALL routes that should be publicly accessible without login
+// public routes
 const isPublicRoute = createRouteMatcher([
-  '/api/webhooks(.*)', // Your webhook route pattern
-  '/',                      // Example: Make homepage public
-  '/sign-in(.*)',           // Sign-in page and potential sub-routes
-  '/sign-up(.*)',           // Sign-up page and potential sub-routes
-  // Add any other public pages like /about, /pricing etc.
+  "/api/webhooks(.*)",
+  "/",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
 ]);
 
-export default clerkMiddleware(async (auth, req) => {
-  const { userId } = await auth();
+export default clerkMiddleware(
+  // Note: first argument is `auth`, second is the NextRequest
+  async (auth, req) => {
+    // auth() is the function injected by Clerk
+    const { userId, redirectToSignIn } = await auth();
 
-  // If the route is public, allow access regardless of authentication status.
-  if (isPublicRoute(req)) {
-    return; // Allows the request to proceed to the route handler
+    // 1) Public route → let it through
+    if (isPublicRoute(req)) {
+      return NextResponse.next();
+    }
+
+    // 2) Protected & not signed in → redirect via Clerk helper
+    if (!userId) {
+      return redirectToSignIn({
+        returnBackUrl: req.nextUrl.toString(),
+      });
+    }
+
+    // 3) Protected & signed in → let it through
+    return NextResponse.next();
   }
-
-  // If the route is NOT public, and the user is NOT signed in,
-  // redirect them to the sign-in page.
-  if (!userId) {
-    // You can customize the returnBackUrl query parameter if needed
-    return Response.redirect(`/sign-in?returnBackUrl=${encodeURIComponent(req.url)}`);
-  }
-
-  // If the route is NOT public, and the user IS signed in,
-  // allow the request to proceed.
-  // No explicit return is needed here; falling through allows access.
-  return;
-});
+);
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
+    // everything but _next static / images and your webhook
+    "/((?!_next|favicon.ico|assets|api/webhooks).*)",
+    // all other API routes
+    "/api/:path*",
   ],
 };

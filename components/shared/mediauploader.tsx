@@ -3,47 +3,43 @@
 import { toast } from "sonner"
 import { dataUrl, getImageSize } from "@/lib/utils";
 import { CldImage, CldUploadWidget } from "next-cloudinary"
+import type { CloudinaryUploadWidgetResults } from "next-cloudinary";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { ImageState } from "@/lib/utils";
+import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
+
+
 
 type MediaUploaderProps = {
   onValueChange: (value: string) => void;
-  setImage: React.Dispatch<any>;
+  setImage: Dispatch<SetStateAction<ImageState>>;
   publicId: string;
-  image: any;
+  image: ImageState;
   type: string;
-}
+};
 
-const MediaUploader = ({
-  onValueChange,
-  setImage,
-  image,
-  publicId,
-  type
-}: MediaUploaderProps) => {
-//   const { toast } = useToast()
+const MediaUploader = ({ onValueChange, setImage, image, publicId, type }: MediaUploaderProps) => {
+  // Initialize Cloudinary widget
+  useEffect(() => {
+    loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+  }, []);
 
-  const onUploadSuccessHandler = (result: any) => {
-    setImage((prevState: any) => ({
-      ...prevState,
-      publicId: result?.info?.public_id,
-      width: result?.info?.width,
-      height: result?.info?.height,
-      secureURL: result?.info?.secure_url
-    }))
-
-    onValueChange(result?.info?.public_id)
-
-    toast(
-        "Successful1 Upload! 1 Credit has been deducted from your account ",
-    )
-  }
+  const onUploadSuccessHandler = (results: CloudinaryUploadWidgetResults) => {
+    if (results.info && typeof results.info !== 'string') {
+      const { public_id, width, height, secure_url } = results.info;
+      if (public_id && width && height && secure_url) {
+        setImage({ publicId: public_id, width, height, secureURL: secure_url });
+        onValueChange(public_id);
+        toast("Upload successful! 1 credit has been deducted from your account.");
+      }
+    }
+  };
 
   const onUploadErrorHandler = () => {
-    toast(
-      "Something Went wrong while uploading! Please try again."
-    )
-  }
+    toast("Something went wrong while uploading. Please try again.");
+  };
 
   return (
     <CldUploadWidget

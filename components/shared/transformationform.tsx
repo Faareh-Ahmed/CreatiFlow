@@ -15,12 +15,6 @@ import {
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { aspectRatioOptions, creditFee, defaultValues, transformationTypes } from "@/constants"
@@ -44,7 +38,7 @@ export const formSchema = z.object({
   publicId: z.string(),
 })
 
-const TransformationForm = ({ action, data = null, userId, type, creditBalance, config = null }: TransformationFormProps) => {
+const TransformationForm = ({ action, data = null, userId, type, config = null }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data)
   const [newTransformation, setNewTransformation] = useState<Transformations | null>(null);
@@ -278,7 +272,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
               <MediaUploader 
                 onValueChange={field.onChange}
                 setImage={setImage}
-                publicId={field.value}
+                publicId={field.value || ''}
                 image={image}
                 type={type}
               />

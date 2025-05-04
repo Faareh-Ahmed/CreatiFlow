@@ -50,9 +50,13 @@ export const Collection = ({
 
   return (
     <>
-      <div className="collection-heading">
+      <div className="collection-heading universal">
         <h2 className="h2 font-bold text-black">Recent Edits</h2>
-        {hasSearch && <Search />}
+        {hasSearch && (
+          <div className="flex items-center ">
+            <Search />
+          </div>
+        )}
       </div>
 
       {images.length > 0 ? (
@@ -115,11 +119,10 @@ const Card = ({ image }: { image: IImage }) => {
             {image.title}
           </p>
           <Image
-            src={`/assets/icons/${
-              transformationTypes[
+            src={`/assets/icons/${transformationTypes[
                 image.transformationType as TransformationTypeKey
               ].icon
-            }`}
+              }`}
             alt={image.title}
             width={24}
             height={24}

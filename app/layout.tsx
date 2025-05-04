@@ -33,7 +33,7 @@ export default function RootLayout({
           className={cn("IBM_PlexSans", ibmSans.variable)}
         >
 
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
+          <header className="flex justify-end items-center px-4 gap-4 ">
             {/* <SignedOut>
               <SignInButton />
               <SignUpButton />
