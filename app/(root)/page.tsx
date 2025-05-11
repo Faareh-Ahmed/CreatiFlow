@@ -14,15 +14,15 @@ const Home = async () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden">
-        <video
+      <section className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')]">
+        {/* <video
           className="absolute inset-0 w-full h-full object-cover"
           src="/assets/videos/background.mp4"
           autoPlay
           loop
           muted
           playsInline
-        />
+        /> */}
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 text-white">
@@ -69,7 +69,7 @@ const Home = async () => {
       </section>
 
       {/* "How It Works" / Video Showcase Section */}
-      <section className="relative py-16 md:py-24 min-h-screen bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg2.jpg')] text-white">
+      <section className="relative py-16 md:py-24 min-h-screen bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')] text-white">
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 max-w-7xl mx-auto px-0">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -77,11 +77,11 @@ const Home = async () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {/* Generative Fill Demo */}
-            <div className="bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-700 hover:from-purple-600 hover:via-indigo-500 hover:to-blue-600   hover:shadow-xl transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
-              <video className="w-full h-auto" autoPlay loop muted playsInline >
+            <div className="bg-cover bg-center bg-no-repeat bg-[url('/assets/images/generative-fill.png')]   hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
+              {/* <video className="w-full h-auto" autoPlay loop muted playsInline >
                 <source src="assets/videos/bg4.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
-              </video>
+              </video> */}
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">Generative Fill</h3>
                 <p className="text-gray-300 text-sm">Add, remove, or expand content seamlessly.</p>
@@ -89,11 +89,11 @@ const Home = async () => {
             </div>
 
             {/* Object Remove Demo */}
-            <div className="bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-700 hover:from-purple-600 hover:via-indigo-500 hover:to-blue-600   hover:shadow-xl transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
-              <video className="w-full h-auto" autoPlay loop muted playsInline >
+            <div className="bg-cover bg-center bg-no-repeat bg-[url('/assets/images/object-removal.png')]  hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
+              {/* <video className="w-full h-auto" autoPlay loop muted playsInline >
                 <source src="/assets/videos/bg6.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
-              </video>
+              </video> */}
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">Object Remove</h3>
                 <p className="text-gray-300 text-sm">Clean up photos by removing unwanted objects.</p>
