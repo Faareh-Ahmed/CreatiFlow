@@ -5,14 +5,7 @@ import React from 'react';
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="relative flex items-center justify-center min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')]">
-      {/* <video
-        className="absolute inset-0 w-full h-full object-cover"
-        src="assets/videos/background.mp4"   
-        autoPlay
-        loop
-        muted
-        playsInline
-      /> */}
+
 
       <div className="absolute inset-0 bg-black/60" />
 

@@ -15,14 +15,7 @@ const Home = async () => {
     <>
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')]">
-        {/* <video
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/assets/videos/background.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-        /> */}
+
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 text-white">
@@ -77,11 +70,8 @@ const Home = async () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {/* Generative Fill Demo */}
-            <div className="bg-cover bg-center bg-no-repeat bg-[url('/assets/images/generative-fill.png')]   hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
-              {/* <video className="w-full h-auto" autoPlay loop muted playsInline >
-                <source src="assets/videos/bg4.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video> */}
+            <div className="flex flex-col justify-end w-full h-96 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/generative-fill.png')]   hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
+              
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">Generative Fill</h3>
                 <p className="text-gray-300 text-sm">Add, remove, or expand content seamlessly.</p>
@@ -89,11 +79,8 @@ const Home = async () => {
             </div>
 
             {/* Object Remove Demo */}
-            <div className="bg-cover bg-center bg-no-repeat bg-[url('/assets/images/object-removal.png')]  hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
-              {/* <video className="w-full h-auto" autoPlay loop muted playsInline >
-                <source src="/assets/videos/bg6.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video> */}
+            <div className=" flex flex-col justify-end w-full h-96 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/object-removal.png')]  hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
+              
               <div className="p-4">
                 <h3 className="text-xl font-semibold mb-2">Object Remove</h3>
                 <p className="text-gray-300 text-sm">Clean up photos by removing unwanted objects.</p>
