@@ -3,15 +3,13 @@ import { navLinks } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import type { SearchParamProps } from "@/types";
 
-// Helper Data
 const featureHighlights = navLinks.slice(1, 5).map((link) => ({
   ...link,
   description: `Use AI to ${link.label.toLowerCase()} your images effortlessly.`,
 }));
 
-const Home = async ({ searchParams }: SearchParamProps) => {
+const Home = async () => {
 
   return (
     <>

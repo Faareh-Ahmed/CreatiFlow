@@ -1,4 +1,6 @@
 
+export type { IImage } from "@/database/models/image.model";
+
 // ====== USER PARAMS
 export type CreateUserParams = {
     clerkId: string;
@@ -9,6 +11,13 @@ export type CreateUserParams = {
     photo: string;
   };
   
+export type SearchParamProps = {
+  params?: { 
+    id?: string;         // Make optional
+    type?: TransformationTypeKey 
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
   export type UpdateUserParams = {
     firstName: string;
     lastName: string;
@@ -129,7 +138,7 @@ export type CreateUserParams = {
   };
   
   export type TransformedImageProps = {
-    image: any;
+    image: IImage;
     type: string;
     title: string;
     transformationConfig: Transformations | null;

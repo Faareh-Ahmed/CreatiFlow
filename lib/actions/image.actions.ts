@@ -9,12 +9,19 @@ import { redirect } from "next/navigation";
 
 import { v2 as cloudinary } from 'cloudinary'
 import { AddImageParams, UpdateImageParams } from "../types";
+import type { Query, Document } from "mongoose";
 
-const populateUser = (query: any) => query.populate({
-  path: 'author',
-  model: User,
-  select: '_id firstName lastName clerkId'
-})
+
+interface CldResource {
+  public_id: string;
+}
+
+const populateUser = <T extends Document>(query: Query<T, T>) =>
+  query.populate({
+    path: "author",
+    model: User,
+    select: "_id firstName lastName clerkId",
+  });
 
 // ADD IMAGE
 export async function addImage({ image, userId, path }: AddImageParams) {
@@ -96,6 +103,8 @@ export async function getImageById(imageId: string) {
   }
 }
 
+
+
 // GET IMAGES
 export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
   limit?: number;
@@ -118,11 +127,11 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
       expression += ` AND ${searchQuery}`
     }
 
-    const { resources } = await cloudinary.search
+    const { resources } = (await cloudinary.search
       .expression(expression)
-      .execute();
+      .execute()) as { resources: CldResource[] };
 
-    const resourceIds = resources.map((resource: any) => resource.public_id);
+      const resourceIds = resources.map(r => r.public_id);;
 
     let query = {};
 

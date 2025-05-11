@@ -1,5 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-prototype-builtins */
 import { type ClassValue, clsx } from "clsx";
 import qs from "qs";
 import { twMerge } from "tailwind-merge";
@@ -114,7 +112,7 @@ export interface UploadResult {
   };
 }
 
-interface ImageLike {
+export interface ImageLike {
   aspectRatio?: string;
   width?: number;
   height?: number;
