@@ -14,7 +14,7 @@ const Home = async () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')]">
+      <section className=" px-4 relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')]">
 
         <div className="absolute inset-0 bg-black/50" />
 
@@ -37,7 +37,7 @@ const Home = async () => {
       {/* Features Showcase Section */}
       <section className="relative py-16 md:py-24 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/bg1.jpg')]">
         <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 max-w-7xl mx-auto px-0">
+        <div className="relative z-10 max-w-7xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
             Explore Powerful AI Features
           </h2>
@@ -68,24 +68,24 @@ const Home = async () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             See CreatiFlow in Action
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          <div className=" px-4 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {/* Generative Fill Demo */}
-            <div className="flex flex-col justify-end w-full h-96 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/generative-fill.png')]   hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
-              
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">Generative Fill</h3>
+            <div className="relative w-full h-64 sm:h-96 bg-[url('/assets/images/generative-fill.png')] bg-contain bg-center bg-no-repeat rounded-lg overflow-hidden shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="absolute bottom-0 left-0 w-full bg-black/60 p-4">
+                <h3 className="text-xl font-semibold mb-2 text-white">Generative Fill</h3>
                 <p className="text-gray-300 text-sm">Add, remove, or expand content seamlessly.</p>
               </div>
             </div>
 
+
             {/* Object Remove Demo */}
-            <div className=" flex flex-col justify-end w-full h-96 bg-cover bg-center bg-no-repeat bg-[url('/assets/images/object-removal.png')]  hover:scale-105 transition-all duration-300 bg-opacity-80 rounded-lg overflow-hidden shadow-xl">
-              
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">Object Remove</h3>
+            <div className="relative w-full h-64 sm:h-96 bg-[url('/assets/images/object-removal.png')] bg-contain bg-center bg-no-repeat rounded-lg overflow-hidden shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="absolute bottom-0 left-0 w-full bg-black/60 p-4">
+                <h3 className="text-xl font-semibold mb-2 text-white">Object Remove</h3>
                 <p className="text-gray-300 text-sm">Clean up photos by removing unwanted objects.</p>
               </div>
             </div>
+
 
             {/* Additional demo cards here */}
           </div>

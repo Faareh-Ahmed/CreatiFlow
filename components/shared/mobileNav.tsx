@@ -17,7 +17,7 @@ import { navLinks } from '@/constants'
 
 const MobileNav = () => {
 
-    const pathname = usePathname()
+    const pathname = usePathname()  
 
     return (
         <header className='header'>
@@ -32,7 +32,7 @@ const MobileNav = () => {
 
             <nav className='flex gap-2'>
                 <SignedIn>
-                    <UserButton/>
+                    <UserButton />
 
                     <Sheet>
                         <SheetTrigger>
@@ -45,45 +45,47 @@ const MobileNav = () => {
                             />
                         </SheetTrigger>
 
-                        <SheetContent className="sheet-content sm:w-64">
+                        <SheetContent className="sheet-content sm:w-64 flex flex-col">
                             <SheetHeader>
                                 <SheetTitle>
-                                <Image
-                                    src="/assets/images/logo-text.svg"
-                                    alt="logo"
-                                    width={152}
-                                    height={23}
-                                />
+                                    <Image
+                                        src="/assets/images/logo-text.svg"
+                                        alt="logo"
+                                        width={152}
+                                        height={23}
+                                    />
                                 </SheetTitle>
                             </SheetHeader>
                             <>
-                                
 
-                                <ul className="header-nav_elements">
-                                    {navLinks.map((link) => {
-                                        const isActive = link.route === pathname
+                                <div className="flex-1 overflow-y-auto mt-4 max-h-[calc(100vh-100px)]">
 
-                                        return (
-                                            <li
-                                                className={`${isActive} p-4 flex whitespace-nowrap text-dark-700`}
-                                                key={link.route}
-                                            >
-                                                <Link
-                                                    className={`sidebar-link cursor-pointer ${isActive ? 'text-blue-700' : ''}`}
-                                                    href={link.route}
+                                    <ul className="header-nav_elements">
+                                        {navLinks.map((link) => {
+                                            const isActive = link.route === pathname
+
+                                            return (
+                                                <li
+                                                    className={`${isActive} p-4 flex whitespace-nowrap text-dark-700`}
+                                                    key={link.route}
                                                 >
-                                                    <Image
-                                                        src={link.icon}
-                                                        alt="logo"
-                                                        width={24}
-                                                        height={24}
-                                                    />
-                                                    {link.label}
-                                                </Link>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
+                                                    <Link
+                                                        className={`sidebar-link cursor-pointer ${isActive ? 'text-blue-700' : ''}`}
+                                                        href={link.route}
+                                                    >
+                                                        <Image
+                                                            src={link.icon}
+                                                            alt="logo"
+                                                            width={24}
+                                                            height={24}
+                                                        />
+                                                        {link.label}
+                                                    </Link>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
+                                </div>
                             </>
                         </SheetContent>
                     </Sheet>
