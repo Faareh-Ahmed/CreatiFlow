@@ -59,7 +59,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
       </section>
 
       <section className="mt-10 border-t border-dark-400/15">
-        <div className="transformation-grid">
+        <div className="transformation-grid px-4">
           {/* MEDIA UPLOADER */}
           <div className="flex flex-col gap-4">
             <h3 className="h3-bold text-dark-600">Original</h3>
@@ -85,7 +85,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
         </div>
 
         {userId === image.author.clerkId && (
-          <div className="mt-4 space-y-4">
+          <div className="mt-4 space-y-4 px-4">
             <Button asChild type="button" className="submit-button capitalize">
               <Link href={`/transformations/${image._id}/update`}>
                 Update Image
