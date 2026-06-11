@@ -29,6 +29,9 @@ export default function RootLayout({
   return (
     <ClerkProvider afterSignOutUrl={"/"} appearance={{ variables: { colorPrimary: "#000" } }}>
       <html lang="en">
+        <head>
+          <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        </head>
         <body
           className={cn("IBM_PlexSans", ibmSans.variable)}
         >

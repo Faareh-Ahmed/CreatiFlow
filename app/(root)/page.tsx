@@ -34,7 +34,7 @@ const LandingPage = () => {
           <div className="relative group hover:translate-y-[-4px] transition-transform duration-300">
             <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
             <div className="relative glass-card rounded-xl overflow-hidden shadow-2xl">
-              <Image alt="AI Editing Dashboard" width={1200} height={900} className="w-full aspect-[4/3] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYqQxKduT-tHANLydW0gHundPam3sKkYRjaY76CHzvcjG8SoyhfV5vNZvIarq4JcA-OTrFFWM5Rm9bNi8zjxsj6KGCdhnxvtJcSxnHdn5vRYBkjXDmMQcQD6PYw6LQsmRNGhK3IKAF8VCNbiLib_YEDlkFx9CxZ9nLWl6DSB4Lwao-nVnyRjHn9GZElpayVM4RYJ5z1SQMn11HeKhfaT0yjexoXfHdP7aih624Fiizh-EWyyLjqabQqhdRvuLWg8UnQMvYFq2vZ-N9" />
+              <Image alt="AI Editing Dashboard" width={1200} height={900} priority className="w-full aspect-[4/3] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYqQxKduT-tHANLydW0gHundPam3sKkYRjaY76CHzvcjG8SoyhfV5vNZvIarq4JcA-OTrFFWM5Rm9bNi8zjxsj6KGCdhnxvtJcSxnHdn5vRYBkjXDmMQcQD6PYw6LQsmRNGhK3IKAF8VCNbiLib_YEDlkFx9CxZ9nLWl6DSB4Lwao-nVnyRjHn9GZElpayVM4RYJ5z1SQMn11HeKhfaT0yjexoXfHdP7aih624Fiizh-EWyyLjqabQqhdRvuLWg8UnQMvYFq2vZ-N9" />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
               <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                 <div className="space-y-1">
@@ -64,7 +64,7 @@ const LandingPage = () => {
               <h3 className="font-headline-lg text-xl mb-3">Image Restore</h3>
               <p className="font-body-sm text-on-surface-variant mb-6">Breathe new life into old, grainy, or low-resolution photos with advanced neural upscaling and noise reduction.</p>
               <div className="w-full h-40 rounded-lg overflow-hidden relative">
-                <Image alt="Restore" className="object-cover grayscale opacity-40" fill src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjMTe-njddo0TlrReZ2ZFQeBqeXuZZqjgTXXclf75mMjwmMtDLF-vS5V6RigkSmNuc3plD-sAkkCb5puyaZ0k8m2bQfimOT9Va8PHwHTt_r5m9ikvK5rA8A1NP-MU8aL9bCa5uYlxWlJcAq3-213xDsqq68CTjUfyXrsWTRjrO5S9SjB_e6b6IvZQjXiqJQl4jv4ZyxqG-0gy5rQ5LBYYksfJ_iKv95nTV7dmYMDZX2-w19cPc1Ga5PzQy47T8isfuhff-VIK1fZ4H" />
+                <Image alt="Restore" className="object-cover grayscale opacity-40" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjMTe-njddo0TlrReZ2ZFQeBqeXuZZqjgTXXclf75mMjwmMtDLF-vS5V6RigkSmNuc3plD-sAkkCb5puyaZ0k8m2bQfimOT9Va8PHwHTt_r5m9ikvK5rA8A1NP-MU8aL9bCa5uYlxWlJcAq3-213xDsqq68CTjUfyXrsWTRjrO5S9SjB_e6b6IvZQjXiqJQl4jv4ZyxqG-0gy5rQ5LBYYksfJ_iKv95nTV7dmYMDZX2-w19cPc1Ga5PzQy47T8isfuhff-VIK1fZ4H" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-primary/10"></div>
               </div>
             </div>
@@ -76,7 +76,7 @@ const LandingPage = () => {
               <h3 className="font-headline-lg text-xl mb-3">Generative Fill</h3>
               <p className="font-body-sm text-on-surface-variant mb-6">Expand horizons or add objects simply by describing them. Our AI creates seamless, context-aware textures.</p>
               <div className="w-full h-40 rounded-lg overflow-hidden relative">
-                <Image alt="Generative Fill" className="object-cover" fill src="/assets/images/generative-fill.png" />
+                <Image alt="Generative Fill" className="object-cover" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw" src="/assets/images/generative-fill.png" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-primary/10"></div>
               </div>
             </div>
@@ -88,7 +88,7 @@ const LandingPage = () => {
               <h3 className="font-headline-lg text-xl mb-3">Object Remove</h3>
               <p className="font-body-sm text-on-surface-variant mb-6">Erase photobombers, wires, or blemishes instantly. The background is filled automatically with zero artifacts.</p>
               <div className="relative h-40 bg-surface rounded-lg flex items-center justify-center overflow-hidden">
-                <Image alt="Object Remove" className="object-cover" fill src="/assets/images/object-removal.png" />
+                <Image alt="Object Remove" className="object-cover" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw" src="/assets/images/object-removal.png" />
                 <div className="absolute inset-0 bg-primary/5"></div>
               </div>
             </div>
