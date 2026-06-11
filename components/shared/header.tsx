@@ -2,10 +2,10 @@ import React from 'react'
 
 const Header = ({ title, subtitle }: { title: string, subtitle?: string }) => {
   return (
-    <>
-      <h2 className="h2-bold text-dark-600 universal">{title}</h2>
-      {subtitle && <p className="p-16-regular mt-4 universal">{subtitle}</p>}
-    </>
+    <div className="mb-8 space-y-2">
+      <h2 className="font-display-lg text-display-lg text-on-surface">{title}</h2>
+      {subtitle && <p className="font-body-md text-on-surface-variant text-lg">{subtitle}</p>}
+    </div>
   )
 }
 

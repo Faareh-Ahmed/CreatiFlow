@@ -8,7 +8,9 @@ import { getUserById } from "@/lib/actions/user.actions";
 import { getImageById } from "@/lib/actions/image.actions";
 import { SearchParamProps, TransformationTypeKey } from '@/lib/types';
 
-const Page = async ({ params: { id } }: SearchParamProps) => {
+const Page = async (props: SearchParamProps) => {
+  const params = await props.params;
+  const { id } = params;
   const { userId } = await auth();
 
   if (!userId) redirect("/sign-in");
@@ -20,7 +22,7 @@ const Page = async ({ params: { id } }: SearchParamProps) => {
     transformationTypes[image.transformationType as TransformationTypeKey];
 
   return (
-    <>
+    <div className="max-w-container-max-width mx-auto px-margin-desktop">
       <Header title={transformation.title} subtitle={transformation.subTitle} />
 
       <section className="mt-10">
@@ -33,7 +35,7 @@ const Page = async ({ params: { id } }: SearchParamProps) => {
           data={image}
         />
       </section>
-    </>
+    </div>
   );
 };
 

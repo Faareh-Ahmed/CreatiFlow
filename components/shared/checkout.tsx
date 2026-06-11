@@ -31,9 +31,9 @@ const Checkout = ({
   return (
     <Button
       onClick={onCheckout}
-      className="w-full rounded-full bg-purple-100 text-purple-500"
+      className="w-full rounded-xl bg-primary text-on-primary font-bold py-6 hover:bg-opacity-90 transition-all shadow-md hover:shadow-lg active:scale-95"
     >
-      Buy Credit
+      Buy Now
     </Button>
   );
 };

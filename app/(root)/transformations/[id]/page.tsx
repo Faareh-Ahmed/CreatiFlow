@@ -10,16 +10,18 @@ import { getImageSize } from "@/lib/utils";
 import { SearchParamProps } from '@/lib/types';
 import { DeleteConfirmation } from "@/components/shared/deleteconfirmation";
 
-const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
+const ImageDetails = async (props: SearchParamProps) => {
+  const params = await props.params;
+  const { id } = params;
   const { userId } = await auth();
 
   const image = await getImageById(id);
 
   return (
-    <>
+    <div className="max-w-container-max-width mx-auto px-margin-desktop">
       <Header title={image.title} />
 
-      <section className="mt-5 flex flex-wrap gap-4 universal">
+      <section className="mt-5 flex flex-wrap gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">
           <p className="text-dark-600">Transformation:</p>
           <p className=" capitalize text-purple-400">
@@ -96,7 +98,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
           </div>
         )}
       </section>
-    </>
+    </div>
   );
 };
 

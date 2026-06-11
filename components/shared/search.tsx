@@ -10,7 +10,7 @@ import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 export const Search = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchParams.get("query") || "");
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -36,17 +36,13 @@ export const Search = () => {
   }, [router, searchParams, query]);
 
   return (
-    <div className="search">
-      <Image
-        src="/assets/icons/search.svg"
-        alt="search"
-        width={24}
-        height={24}
-      />
+    <div className="flex w-full items-center gap-2 rounded-lg bg-surface-container px-4 py-1.5 transition-colors hover:bg-surface-container-high focus-within:bg-surface-container-high focus-within:ring-2 focus-within:ring-primary shadow-none">
+      <span className="material-symbols-outlined text-[20px] text-on-surface-variant">search</span>
 
       <Input
-        className="search-field"
-        placeholder="Search"
+        className="border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent px-0 font-body-md text-body-md text-on-surface"
+        placeholder="Search..."
+        value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
     </div>

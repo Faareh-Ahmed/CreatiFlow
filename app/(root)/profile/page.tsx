@@ -8,7 +8,8 @@ import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 import { SearchParamProps } from "@/lib/types";
 
-const Profile = async ({ searchParams }: SearchParamProps) => {
+const Profile = async (props: SearchParamProps) => {
+  const searchParams = await props.searchParams;
   const page = Number(searchParams?.page) || 1;
   const { userId } = await auth();
 

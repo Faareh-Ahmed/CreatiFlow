@@ -106,10 +106,13 @@ export async function getImageById(imageId: string) {
 
 
 // GET IMAGES
-export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
+export async function getAllImages({ limit = 9, page = 1, searchQuery = '', userId, sortOrder = 'recent', actionFilter = '' }: {
   limit?: number;
   page: number;
   searchQuery?: string;
+  userId?: string;
+  sortOrder?: string;
+  actionFilter?: string;
 }) {
   try {
     await connectToDatabase();
@@ -121,32 +124,29 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
       secure: true,
     })
 
-    let expression = 'folder=imaginify';
+    let query: any = {};
 
     if (searchQuery) {
-      expression += ` AND ${searchQuery}`
+      query.title = {
+        $regex: searchQuery,
+        $options: 'i'
+      };
     }
 
-    const { resources } = (await cloudinary.search
-      .expression(expression)
-      .execute()) as { resources: CldResource[] };
-
-      const resourceIds = resources.map(r => r.public_id);;
-
-    let query = {};
-
-    if(searchQuery) {
-      query = {
-        publicId: {
-          $in: resourceIds
-        }
-      }
+    if (userId) {
+      query.author = userId;
     }
 
-    const skipAmount = (Number(page) -1) * limit;
+    if (actionFilter && actionFilter !== 'all') {
+      query.transformationType = actionFilter;
+    }
+
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const sortObj: any = sortOrder === 'oldest' ? { updatedAt: 1 } : { updatedAt: -1 };
 
     const images = await populateUser(Image.find(query))
-      .sort({ updatedAt: -1 })
+      .sort(sortObj)
       .skip(skipAmount)
       .limit(limit);
     

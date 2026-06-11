@@ -8,12 +8,14 @@ import { redirect } from 'next/navigation';
 type TransformationTypeKey = keyof typeof transformationTypes;
 
 interface SearchParamProps {
-  params: {
+  params: Promise<{
     type: TransformationTypeKey;
-  };
+  }>;
 }
 
-const AddTransformationTypePage = async ({ params: { type } }: SearchParamProps) => {
+const AddTransformationTypePage = async (props: SearchParamProps) => {
+  const params = await props.params;
+  const { type } = params;
   const { userId } = await auth();
   const transformation = transformationTypes[type];
 
@@ -22,13 +24,13 @@ const AddTransformationTypePage = async ({ params: { type } }: SearchParamProps)
   const user = await getUserById(userId);
 
   return (
-    <>
+    <div className="max-w-container-max-width mx-auto px-margin-desktop">
       <Header
         title={transformation.title}
         subtitle={transformation.subTitle}
       />
     
-      <section className="mt-10 universal">
+      <section className="mt-10">
         <TransformationForm 
           action="Add"
           userId={user._id}
@@ -36,7 +38,7 @@ const AddTransformationTypePage = async ({ params: { type } }: SearchParamProps)
           creditBalance={user.creditBalance}
         />
       </section>
-    </>
+    </div>
   )
 }
 

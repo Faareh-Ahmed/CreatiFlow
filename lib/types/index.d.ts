@@ -12,11 +12,11 @@ export type CreateUserParams = {
   };
   
 export type SearchParamProps = {
-  params?: { 
-    id?: string;         // Make optional
-    type?: TransformationTypeKey 
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ 
+    id: string;
+    type: TransformationTypeKey;
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
   export type UpdateUserParams = {
     firstName: string;
@@ -121,10 +121,7 @@ export type SearchParamProps = {
     keysToRemove: string[];
   };
   
-  export type SearchParamProps = {
-    params: { id: string; type: TransformationTypeKey };
-    searchParams: { [key: string]: string | string[] | undefined };
-  };
+
   
 
 
