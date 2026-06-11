@@ -12,9 +12,6 @@ import { AddImageParams, UpdateImageParams } from "../types";
 import type { Query, Document } from "mongoose";
 
 
-interface CldResource {
-  public_id: string;
-}
 
 const populateUser = <T extends Document>(query: Query<T, T>) =>
   query.populate({
@@ -124,7 +121,7 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '', user
       secure: true,
     })
 
-    let query: any = {};
+    const query: Record<string, unknown> = {};
 
     if (searchQuery) {
       query.title = {
@@ -143,7 +140,7 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '', user
 
     const skipAmount = (Number(page) - 1) * limit;
 
-    const sortObj: any = sortOrder === 'oldest' ? { updatedAt: 1 } : { updatedAt: -1 };
+    const sortObj: Record<string, 1 | -1> = sortOrder === 'oldest' ? { updatedAt: 1 } : { updatedAt: -1 };
 
     const images = await populateUser(Image.find(query))
       .sort(sortObj)

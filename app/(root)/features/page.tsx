@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { transformationTypes } from '@/constants';
 import { auth } from '@clerk/nextjs/server';
 
@@ -27,7 +28,7 @@ const FeaturesPage = async () => {
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500"></div>
             
             <div className="w-16 h-16 rounded-2xl bg-white dark:bg-surface flex items-center justify-center text-primary mb-6 shadow-sm border border-outline-variant/30">
-              <img src={`/assets/icons/${feature.icon}`} alt={feature.title} className="w-8 h-8 opacity-80 group-hover:opacity-100 transition-opacity" />
+              <Image src={`/assets/icons/${feature.icon}`} alt={feature.title} width={32} height={32} className="opacity-80 group-hover:opacity-100 transition-opacity" />
             </div>
             
             <h2 className="font-headline-lg text-2xl text-on-surface mb-3 group-hover:text-primary transition-colors">{feature.title}</h2>
