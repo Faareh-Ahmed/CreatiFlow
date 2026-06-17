@@ -28,6 +28,7 @@ const AddTransformationTypePage = async (props: SearchParamProps) => {
       <Header
         title={transformation.title}
         subtitle={transformation.subTitle}
+        creditBalance={user.creditBalance}
       />
     
       <section className="mt-10">

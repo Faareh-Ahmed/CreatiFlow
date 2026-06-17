@@ -38,7 +38,7 @@ export const formSchema = z.object({
   publicId: z.string(),
 })
 
-const TransformationForm = ({ action, data = null, userId, type, config = null }: TransformationFormProps) => {
+const TransformationForm = ({ action, data = null, userId, type, creditBalance, config = null }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   // const [image, setImage] = useState(data)
   const [image, setImage] = useState<IImage | null>(data)
@@ -298,22 +298,39 @@ const TransformationForm = ({ action, data = null, userId, type, config = null }
           />
         </div>
 
-        <div className="flex flex-col gap-4">
-          <Button
-            type="button"
-            className="submit-button capitalize"
-            disabled={isTransforming || newTransformation === null}
-            onClick={onTransformHandler}
-          >
-            {isTransforming ? 'Transforming...' : 'Apply Transformation'}
-          </Button>
-          <Button
-            type="submit"
-            className="submit-button capitalize"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Save Image'}
-          </Button>
+        <div className="flex flex-col gap-4 mt-6">
+          {creditBalance !== undefined && (
+            <div className="flex items-center justify-between px-4 py-3 bg-primary-container/10 border border-primary/20 rounded-xl mb-2">
+              <span className="font-body-sm text-on-surface-variant flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[18px]">info</span>
+                Cost: <strong className="text-on-surface">1 Credit</strong>
+              </span>
+              <span className="font-body-sm text-on-surface-variant flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[18px] text-primary">bolt</span>
+                Remaining: <strong className="text-primary">{creditBalance} Credits</strong>
+              </span>
+            </div>
+          )}
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-end mt-2">
+            <Button
+              type="button"
+              className="w-full sm:w-auto min-w-[220px] px-6 py-4 h-auto rounded-xl font-bold transition-all active:scale-95 border-2 border-outline-variant/30 bg-surface-container text-on-surface hover:bg-surface-container-highest shadow-sm"
+              disabled={isTransforming || newTransformation === null}
+              onClick={onTransformHandler}
+            >
+              <span className="material-symbols-outlined text-[20px] mr-2 text-primary">auto_fix</span>
+              {isTransforming ? 'Transforming...' : 'Apply Transformation'}
+            </Button>
+            <Button
+              type="submit"
+              className="w-full sm:w-auto min-w-[220px] px-6 py-4 h-auto rounded-xl font-bold text-white shadow-md transition-all active:scale-95 bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:scale-[1.02]"
+              disabled={isSubmitting}
+            >
+              <span className="material-symbols-outlined text-[20px] mr-2">save</span>
+              {isSubmitting ? 'Submitting...' : 'Save Image'}
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

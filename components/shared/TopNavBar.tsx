@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 
-export const TopNavBar = () => {
+export const TopNavBar = ({ creditBalance }: { creditBalance?: number }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -64,6 +64,12 @@ export const TopNavBar = () => {
             </Link>
           </SignedOut>
           <SignedIn>
+            {creditBalance !== undefined && (
+              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 rounded-full border border-primary/20 shadow-sm" title={`${creditBalance} Credits Remaining`}>
+                <span className="material-symbols-outlined text-primary text-[20px]">bolt</span>
+                <span className="font-body-sm font-bold text-primary">{creditBalance}</span>
+              </div>
+            )}
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
         </div>
@@ -71,6 +77,12 @@ export const TopNavBar = () => {
         {/* Mobile Menu Toggle Button */}
         <div className="md:hidden flex items-center gap-4">
           <SignedIn>
+            {creditBalance !== undefined && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded-full border border-primary/20" title={`${creditBalance} Credits Remaining`}>
+                <span className="material-symbols-outlined text-primary text-[18px]">bolt</span>
+                <span className="font-body-sm font-bold text-primary">{creditBalance}</span>
+              </div>
+            )}
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
           <button

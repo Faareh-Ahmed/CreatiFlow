@@ -23,7 +23,11 @@ const Page = async (props: SearchParamProps) => {
 
   return (
     <div className="max-w-container-max-width mx-auto px-margin-desktop">
-      <Header title={transformation.title} subtitle={transformation.subTitle} />
+      <Header 
+        title={transformation.title} 
+        subtitle={transformation.subTitle} 
+        creditBalance={user.creditBalance}
+      />
 
       <section className="mt-10">
         <TransformationForm

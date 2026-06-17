@@ -7,6 +7,7 @@ import { Search } from "@/components/shared/search";
 import { MyEditsPagination } from "./pagination";
 import { MyEditsGrid } from "@/components/shared/MyEditsGrid";
 import { MyEditsFilters } from "@/components/shared/MyEditsFilters";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 const MyEdits = async (props: SearchParamProps) => {
   const searchParams = await props.searchParams;
@@ -43,9 +44,10 @@ const MyEdits = async (props: SearchParamProps) => {
       {images && images.data.length > 0 ? (
         <MyEditsGrid images={images.data} />
       ) : (
-        <div className="flex-center h-60 w-full bg-surface-container/50 rounded-xl border border-dashed border-outline-variant">
-          <p className="p-20-semibold">Empty List</p>
-        </div>
+        <EmptyState 
+          title="No edits found"
+          subtitle={searchQuery || actionFilter !== 'all' ? "No edits match your current search and filter criteria." : "You haven't created any edits yet. Start exploring the AI tools to create your first edit."}
+        />
       )}
 
       {images && images.totalPage > 1 && (

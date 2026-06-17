@@ -87,9 +87,10 @@ const ImageDetails = async (props: SearchParamProps) => {
         </div>
 
         {userId === image.author.clerkId && (
-          <div className="mt-4 space-y-4 px-4 justify-center flex flex-col">
-            <Button asChild type="button" className="submit-button capitalize">
+          <div className="mt-8 px-4 flex flex-col sm:flex-row gap-4 justify-end">
+            <Button asChild type="button" className="w-full sm:w-auto min-w-[200px] px-6 py-4 h-auto rounded-xl font-bold text-white shadow-md transition-all active:scale-95 bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:scale-[1.02]">
               <Link href={`/transformations/${image._id}/update`}>
+                <span className="material-symbols-outlined text-[20px] mr-2">edit</span>
                 Update Image
               </Link>
             </Button>

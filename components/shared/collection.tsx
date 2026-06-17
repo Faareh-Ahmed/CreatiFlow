@@ -20,6 +20,7 @@ type TransformationTypeKey = keyof typeof transformationTypes;
 import { Button } from "../ui/button";
 
 import { Search } from "./search";
+import { EmptyState } from "./EmptyState";
 
 export const Collection = ({
   hasSearch = false,
@@ -66,9 +67,10 @@ export const Collection = ({
           ))}
         </ul>
       ) : (
-        <div className="collection-empty">
-          <p className="p-20-semibold">Empty List</p>
-        </div>
+        <EmptyState 
+          title="No recent edits found"
+          subtitle={hasSearch ? "No edits match your search." : "Your recent edits will appear here."}
+        />
       )}
 
       {totalPages > 1 && (
