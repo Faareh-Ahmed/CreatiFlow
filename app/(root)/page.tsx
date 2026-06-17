@@ -7,42 +7,26 @@ const LandingPage = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden pb-32 md:pb-48">
-        <div className="absolute top-0 right-0 -z-10 opacity-20 transform translate-x-1/4 -translate-y-1/4">
-          <div className="w-[600px] h-[600px] rounded-full gradient-bg blur-[100px]"></div>
+      <section className="relative overflow-hidden pt-12 pb-24 md:pt-20 md:pb-32 flex justify-center text-center">
+        <div className="absolute top-1/2 left-1/2 -z-10 opacity-30 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary/40 via-secondary/40 to-primary/40 blur-[120px]"></div>
         </div>
-        <div className="max-w-container-max-width mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div className="space-y-stack-lg">
-            <div className="mb-2"></div>
-            <h1 className="font-display-lg text-display-lg md:text-[64px] leading-tight text-on-background">
-              Transform Your <span className="text-gradient">Creativity</span> with AI.
+        <div className="max-w-4xl mx-auto px-margin-desktop flex flex-col items-center">
+          <div className="space-y-8 flex flex-col items-center">
+            <h1 className="font-display-lg text-display-lg md:text-[72px] leading-tight text-on-background">
+              Professional AI Image Editing for <span className="text-gradient">Modern Teams</span>
             </h1>
-            <p className="font-body-md text-on-surface-variant max-w-xl text-lg">
-              Unlock professional-grade image editing in seconds. Our neural engine handles the complex work, letting you focus on the vision.
+            <p className="font-body-md text-on-surface-variant max-w-2xl text-xl leading-relaxed">
+              Elevate your creative workflow with our suite of powerful, intuitive AI tools. From generative fill to seamless object removal, achieve stunning, professional-grade results in seconds.
             </p>
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-8 justify-center">
               <SignedOut>
-                <Link href="/sign-up" className="gradient-bg text-on-primary px-8 py-4 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform">Get Started</Link>
+                <Link href="/sign-up" className="gradient-bg text-on-primary px-8 py-4 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform text-lg">Start Free Trial</Link>
               </SignedOut>
               <SignedIn>
-                <Link href="/features" className="gradient-bg text-on-primary px-8 py-4 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform">Explore Features</Link>
+                <Link href="/features" className="gradient-bg text-on-primary px-8 py-4 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform text-lg">Explore Features</Link>
               </SignedIn>
-              <Link href="/my-edits" className="border-2 border-primary text-primary px-8 py-4 rounded-lg font-bold hover:bg-primary/5 transition-colors flex items-center justify-center">View My Edits</Link>
-            </div>
 
-          </div>
-          <div className="relative group hover:translate-y-[-4px] transition-transform duration-300">
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-            <div className="relative glass-card rounded-xl overflow-hidden shadow-2xl">
-              <Image alt="AI Editing Dashboard" width={1200} height={900} priority className="w-full aspect-[4/3] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYqQxKduT-tHANLydW0gHundPam3sKkYRjaY76CHzvcjG8SoyhfV5vNZvIarq4JcA-OTrFFWM5Rm9bNi8zjxsj6KGCdhnxvtJcSxnHdn5vRYBkjXDmMQcQD6PYw6LQsmRNGhK3IKAF8VCNbiLib_YEDlkFx9CxZ9nLWl6DSB4Lwao-nVnyRjHn9GZElpayVM4RYJ5z1SQMn11HeKhfaT0yjexoXfHdP7aih624Fiizh-EWyyLjqabQqhdRvuLWg8UnQMvYFq2vZ-N9" />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                <div className="space-y-1">
-                  <p className="text-white font-label-caps text-[10px]">CURRENT PROCESS</p>
-                  <p className="text-white font-bold">Generative Fill: Cinematic Lighting</p>
-                </div>
-                <div className="bg-white/90 px-3 py-1 rounded-full text-primary font-bold text-sm">84% Done</div>
-              </div>
             </div>
           </div>
         </div>
@@ -128,7 +112,7 @@ const LandingPage = () => {
                 <SignedIn>
                   <Link href="/features" className="bg-white text-primary px-10 py-4 rounded-lg font-bold hover:bg-opacity-90 transition-all shadow-xl active:scale-95 flex items-center justify-center">Explore Features</Link>
                 </SignedIn>
-                <Link href="/contact" className="bg-primary-container text-on-primary-container border border-white/20 px-10 py-4 rounded-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm active:scale-95 flex items-center justify-center">Book a Demo</Link>
+
               </div>
             </div>
           </div>
